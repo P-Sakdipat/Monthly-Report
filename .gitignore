@@ -1,0 +1,25 @@
+# Ignore dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Ignore local environment variables (Security - prevents database credential leaks)
+.env
+.env*.local
+backend/.env
+frontend/.env
+frontend/.env*.local
+
+# Ignore build outputs
+dist/
+backend/dist/
+.next/
+frontend/.next/
+frontend/out/
+.tsbuildinfo
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

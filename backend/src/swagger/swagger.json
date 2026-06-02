@@ -1,0 +1,132 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Exc Dashboard Backend API",
+    "version": "1.0.0",
+    "description": "API documentation for the Excel/Database Dashboard backend project. Provides secure database connection endpoints for the React/Next.js frontend team."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "Log in user and retrieve a JWT token",
+        "description": "Authenticates a user using credentials stored in the MS SQL Database users table.",
+        "tags": ["Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "TEST_sa"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "your_secure_password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful. Returns JWT token and user info.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "message": { "type": "string", "example": "Login successful" },
+                    "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": { "type": "integer", "example": 1 },
+                        "username": { "type": "string", "example": "admin" },
+                        "role_level": { "type": "integer", "example": 3 },
+                        "department": { "type": "string", "example": "Management" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: Missing username or password."
+          },
+          "401": {
+            "description": "Unauthorized: Invalid username or password."
+          },
+          "500": {
+            "description": "Internal Server Error: Database failure or connection issue."
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "summary": "Get currently logged-in user profile",
+        "description": "Retrieves the decoded user profile data from the JWT payload. Requires the JWT in Authorization header.",
+        "tags": ["Authentication"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user profile.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": { "type": "integer", "example": 1 },
+                        "username": { "type": "string", "example": "admin" },
+                        "role_level": { "type": "integer", "example": 3 },
+                        "department": { "type": "string", "example": "Management" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized: Missing authentication token."
+          },
+          "403": {
+            "description": "Forbidden: Token is invalid or has expired."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Enter the JWT token retrieved from /login. Format: Bearer <your_jwt_token>"
+      }
+    }
+  }
+}
