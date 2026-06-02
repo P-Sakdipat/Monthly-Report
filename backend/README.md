@@ -16,9 +16,9 @@ npm install
 เราได้สร้างไฟล์ `.env` ไว้ที่รากโฟลเดอร์หลังบ้านเรียบร้อยแล้ว หากต้องการปรับเปลี่ยน ให้เข้าไปแก้ไขค่าในไฟล์ได้โดยตรง:
 ```env
 PORT=5000
-DB_SERVER=20.239.48.184
-DB_USER=TEST_sa
-DB_PASSWORD=C11@tCll@i
+DB_SERVER=xx.yyy.zz.xyz
+DB_USER=root
+DB_PASSWORD=1234
 DB_DATABASE=MD_monthly
 DB_ENCRYPT=true
 DB_TRUST_SERVER_CERTIFICATE=true
